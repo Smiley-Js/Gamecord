@@ -18,9 +18,9 @@ module.exports = class Approve extends events {
 
     if (!options.reqTimeoutTime) options.reqTimeoutTime = 30000;
     if (typeof options.mentionUser === 'undefined') options.mentionUser = false;
-    if (!options.requestMessage) options.requestMessage = '{player} has invited you for a round of Game.';
-    if (!options.rejectMessage) options.rejectMessage = 'The player denied your request for a round of Game.';
-    if (!options.reqTimeoutMessage) options.reqTimeoutMessage = 'Dropped the game as the player did not respond.';
+    if (!options.requestMessage) options.requestMessage = '{player} has invited you to play a game.';
+    if (!options.rejectMessage) options.rejectMessage = 'Your game request was denied.';
+    if (!options.reqTimeoutMessage) options.reqTimeoutMessage = 'Request timed out.';
 
     super();
     this.options = options;

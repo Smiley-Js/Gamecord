@@ -15,7 +15,7 @@ module.exports = class Connect4 extends approve {
 
 
     if (!options.embed) options.embed = {};
-    if (!options.embed.title) options.embed.title = 'Connect4 Game';
+    if (!options.embed.title) options.embed.title = 'Match Four';
     if (!options.embed.statusTitle) options.embed.statusTitle = 'Status';
     if (!options.embed.color) options.embed.color = '#5865F2';
 
@@ -26,12 +26,12 @@ module.exports = class Connect4 extends approve {
 
     if (!options.timeoutTime) options.timeoutTime = 60000;
     if (!options.buttonStyle) options.buttonStyle = 'PRIMARY';
-    if (!options.turnMessage) options.turnMessage = '{emoji} | Its turn of player **{player}**.';
-    if (!options.winMessage) options.winMessage = '{emoji} | **{player}** won the Connect4 Game.';
-    if (!options.tieMessage) options.tieMessage = 'The Game tied! No one won the Game!';
-    if (!options.timeoutMessage) options.timeoutMessage = 'The Game went unfinished! No one won the Game!';
-    if (!options.requestMessage) options.requestMessage = '{player} has invited you for a round of **Connect4**.';
-    if (!options.rejectMessage) options.rejectMessage = 'The player denied your request for a round of **Connect4**.';
+    if (!options.turnMessage) options.turnMessage = '{emoji} | It\'s currently **{player}**.\'s turn.';
+    if (!options.winMessage) options.winMessage = '{emoji} | **{player}** won the game of Match Four!';
+    if (!options.tieMessage) options.tieMessage = 'The game ended in a tie.';
+    if (!options.timeoutMessage) options.timeoutMessage = 'The game went unfinished!';
+    if (!options.requestMessage) options.requestMessage = '{player} invites you to play **Match Four**.';
+    if (!options.rejectMessage) options.rejectMessage = 'Your request to play **Match Four** was denied.';
 
 
     if (typeof options.embed !== 'object') throw new TypeError('INVALID_EMBED: embed option must be an object.');
@@ -49,7 +49,7 @@ module.exports = class Connect4 extends approve {
     if (typeof options.tieMessage !== 'string') throw new TypeError('INVALID_MESSAGE: Tie message must be a string.');
     if (typeof options.timeoutMessage !== 'string') throw new TypeError('INVALID_MESSAGE: Timeout message must be a string.');
     if (options.playerOnlyMessage !== false) {
-      if (!options.playerOnlyMessage) options.playerOnlyMessage = 'Only {player} and {opponent} can use these buttons.';
+      if (!options.playerOnlyMessage) options.playerOnlyMessage = 'Sorry, {player} and {opponent} are currently playing.';
       if (typeof options.playerOnlyMessage !== 'string') throw new TypeError('INVALID_MESSAGE: playerOnly Message option must be a string.');
     }
 

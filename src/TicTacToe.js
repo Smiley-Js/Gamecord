@@ -28,12 +28,12 @@ module.exports = class TicTacToe extends approve {
     if (!options.timeoutTime) options.timeoutTime = 60000;
     if (!options.xButtonStyle) options.xButtonStyle = 'DANGER';
     if (!options.oButtonStyle) options.oButtonStyle = 'PRIMARY';
-    if (!options.turnMessage) options.turnMessage = '{emoji} | Its turn of player **{player}**.';
-    if (!options.winMessage) options.winMessage = '{emoji} | **{player}** won the TicTacToe Game.';
-    if (!options.tieMessage) options.tieMessage = 'The Game tied! No one won the Game!';
-    if (!options.timeoutMessage) options.timeoutMessage = 'The Game went unfinished! No one won the Game!';
-    if (!options.requestMessage) options.requestMessage = '{player} has invited you for a round of **Tic Tac Toe**.';
-    if (!options.rejectMessage) options.rejectMessage = 'The player denied your request for a round of **Tic Tac Toe**.';
+    if (!options.turnMessage) options.turnMessage = '{emoji} | It\'s currently **{player}**\'s turn.';
+    if (!options.winMessage) options.winMessage = '{emoji} | **{player}** won the game of Tic Tac Toe.';
+    if (!options.tieMessage) options.tieMessage = 'The game ended in a tie!';
+    if (!options.timeoutMessage) options.timeoutMessage = 'The game went unfinished.';
+    if (!options.requestMessage) options.requestMessage = '{player} has invited you to play a game of **Tic Tac Toe**.';
+    if (!options.rejectMessage) options.rejectMessage = 'Your request for a game of **Tic Tac Toe** was denied.';
 
 
     if (typeof options.embed !== 'object') throw new TypeError('INVALID_EMBED: embed option must be an object.');

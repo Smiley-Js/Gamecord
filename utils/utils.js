@@ -20,8 +20,8 @@ module.exports = {
     const { message, opponent } = options;
     let content = options[contentMsg];
     
-    content = content.replace('{player.tag}', message.author.tag).replace('{player.username}', message.author.username).replace('{player}', `<@!${message.author.id}>`);
-    content = content.replace('{opponent.tag}', opponent?.tag).replace('{opponent.username}', opponent?.username).replace('{opponent}', `<@!${opponent?.id}>`);
+    content = content.replace('{player.tag}', message.author.tag).replace('{player.username}', message.author.username).replace('{player}', `<@${message.author.id}>`);
+    content = content.replace('{opponent.tag}', opponent?.tag).replace('{opponent.username}', opponent?.username).replace('{opponent}', `<@${opponent?.id}>`);
     return content;
   },
 

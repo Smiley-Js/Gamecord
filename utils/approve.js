@@ -19,8 +19,8 @@ module.exports = class Approve extends events {
     if (!options.reqTimeoutTime) options.reqTimeoutTime = 30000;
     if (typeof options.mentionUser === 'undefined') options.mentionUser = false;
     if (!options.requestMessage) options.requestMessage = '{player} has invited you to play a game.';
-    if (!options.rejectMessage) options.rejectMessage = 'Your game request was denied.';
-    if (!options.reqTimeoutMessage) options.reqTimeoutMessage = 'Request timed out.';
+    if (!options.rejectMessage) options.rejectMessage = 'The player denied your request for a game.';
+    if (!options.reqTimeoutMessage) options.reqTimeoutMessage = 'The player did not respond in time.';
 
     super();
     this.options = options;
@@ -43,12 +43,12 @@ module.exports = class Approve extends events {
       .setTitle(this.options.embed.requestTitle)
       .setDescription(formatMessage(this.options, 'requestMessage'));
 
-      const btn1 = new ButtonBuilder().setLabel(this.options.buttons.accept).setCustomId('approve_accept').setStyle('SUCCESS');
-      const btn2 = new ButtonBuilder().setLabel(this.options.buttons.reject).setCustomId('approve_reject').setStyle('DANGER');
+      const btn1 = new ButtonBuilder().setLabel(this.options.buttons.reject).setCustomId('approve_reject').setStyle('DANGER').setEmoji('508079221814329364');
+      const btn2 = new ButtonBuilder().setLabel(this.options.buttons.accept).setCustomId('approve_accept').setStyle('SUCCESS').setEmoji('508079195272904704');
       const row = new ActionRowBuilder().addComponents(btn1, btn2);
 
       const content = this.options.mentionUser ? '<@!'+this.opponent.id+'>' : null;
-      const msg = await this.sendMessage({ content, embeds: [embed], components: [row], allowedMentions: { parse: ['users'] } });
+      const msg = await this.sendMessage({ content, embeds: [embed], components: [row], allowedMentions: { parse: ['users', 'roles'], repliedUser: true } });
       const collector = msg.createMessageComponentCollector({ time: this.options.reqTimeoutTime });
 
 
@@ -84,4 +84,3 @@ module.exports = class Approve extends events {
     return content;
   }
 }
-

@@ -2,7 +2,6 @@ const { disableButtons, formatMessage, ButtonBuilder } = require('../utils/utils
 const { EmbedBuilder, ActionRowBuilder } = require('discord.js');
 const approve = require('../utils/approve');
 
-
 module.exports = class Connect4 extends approve {
   constructor(options = {}) {
 
@@ -15,23 +14,23 @@ module.exports = class Connect4 extends approve {
 
 
     if (!options.embed) options.embed = {};
-    if (!options.embed.title) options.embed.title = 'Match Four';
+    if (!options.embed.title) options.embed.title = 'Match Four Game';
     if (!options.embed.statusTitle) options.embed.statusTitle = 'Status';
     if (!options.embed.color) options.embed.color = '#5865F2';
 
     if (!options.emojis) options.emojis = {};
-    if (!options.emojis.board) options.emojis.board = '⚪';
-    if (!options.emojis.player1) options.emojis.player1 = '🔴';
-    if (!options.emojis.player2) options.emojis.player2 = '🟡';
+    if (!options.emojis.board) options.emojis.board = '⬜️';
+    if (!options.emojis.player1) options.emojis.player1 = '🟥';
+    if (!options.emojis.player2) options.emojis.player2 = '🟦';
 
     if (!options.timeoutTime) options.timeoutTime = 60000;
     if (!options.buttonStyle) options.buttonStyle = 'PRIMARY';
-    if (!options.turnMessage) options.turnMessage = '{emoji} | It\'s currently **{player}**.\'s turn.';
-    if (!options.winMessage) options.winMessage = '{emoji} | **{player}** won the game of Match Four!';
-    if (!options.tieMessage) options.tieMessage = 'The game ended in a tie.';
-    if (!options.timeoutMessage) options.timeoutMessage = 'The game went unfinished!';
-    if (!options.requestMessage) options.requestMessage = '{player} invites you to play **Match Four**.';
-    if (!options.rejectMessage) options.rejectMessage = 'Your request to play **Match Four** was denied.';
+    if (!options.turnMessage) options.turnMessage = '{emoji} | It\'s currently **{player}**\'s turn..';
+    if (!options.winMessage) options.winMessage = '{emoji} | **{player}** won the game of Match Four.';
+    if (!options.tieMessage) options.tieMessage = 'The game tied!';
+    if (!options.timeoutMessage) options.timeoutMessage = 'The game has timed out.';
+    if (!options.requestMessage) options.requestMessage = '{player} invites you to play a game of **Match Four**.';
+    if (!options.rejectMessage) options.rejectMessage = 'Your request for a game of **Match Four** has been denied.';
 
 
     if (typeof options.embed !== 'object') throw new TypeError('INVALID_EMBED: embed option must be an object.');
@@ -49,7 +48,7 @@ module.exports = class Connect4 extends approve {
     if (typeof options.tieMessage !== 'string') throw new TypeError('INVALID_MESSAGE: Tie message must be a string.');
     if (typeof options.timeoutMessage !== 'string') throw new TypeError('INVALID_MESSAGE: Timeout message must be a string.');
     if (options.playerOnlyMessage !== false) {
-      if (!options.playerOnlyMessage) options.playerOnlyMessage = 'Sorry, {player} and {opponent} are currently playing.';
+      if (!options.playerOnlyMessage) options.playerOnlyMessage = 'Only {player} and {opponent} can use these buttons.';
       if (typeof options.playerOnlyMessage !== 'string') throw new TypeError('INVALID_MESSAGE: playerOnly Message option must be a string.');
     }
 
@@ -99,10 +98,11 @@ module.exports = class Connect4 extends approve {
 
 
   async connect4Game(msg) {
-
+// Start of game
     const embed = new EmbedBuilder()
-    .setColor(this.options.embed.color)
+    .setColor('#c0392b')
     .setTitle(this.options.embed.title)
+    .setAuthor({ name: 'Ready to Begin' })
     .setDescription(this.getBoardContent())
     .addFields({ name: this.options.embed.statusTitle, value: this.getTurnMessage() })
     .setFooter({ text: `${this.message.author.tag} vs ${this.opponent.tag}` })
@@ -158,9 +158,10 @@ module.exports = class Connect4 extends approve {
       if (this.foundCheck(block.x, block.y) || this.isBoardFull()) return collector.stop();
       this.player1Turn = !this.player1Turn;
 
-
+// Once game has started
       const embed = new EmbedBuilder()
-      .setColor(this.options.embed.color)
+      .setColor('#8e44ad')
+      .setAuthor({ name: 'Game in Progress' })
       .setTitle(this.options.embed.title)
       .setDescription(this.getBoardContent())
       .addFields({ name: this.options.embed.statusTitle, value: this.getTurnMessage() })
@@ -176,7 +177,7 @@ module.exports = class Connect4 extends approve {
     });
   }
 
-
+// Game ended
   async gameOver(msg, result) {
     const Connect4Game = { player: this.message.author, opponent: this.opponent };
     if (result === 'win') Connect4Game.winner = this.player1Turn ? this.message.author.id : this.opponent.id;
@@ -184,10 +185,12 @@ module.exports = class Connect4 extends approve {
 
 
     const embed = new EmbedBuilder()
-    .setColor(this.options.embed.color)
+    .setColor('#2ecc71')
+    .setAuthor({ name: 'Game Over' })
     .setTitle(this.options.embed.title)
     .setDescription(this.getBoardContent())
     .addFields({ name: this.options.embed.statusTitle, value: this.getTurnMessage(result + 'Message') })
+  
     .setFooter({ text: `${this.message.author.tag} vs ${this.opponent.tag}` })
 
     return msg.edit({ embeds: [embed], components: disableButtons(msg.components) });
